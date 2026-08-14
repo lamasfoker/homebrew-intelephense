@@ -34,8 +34,10 @@ class Intelephense < Formula
     node = node_dir/"bin/node"
     npm_cli = node_dir/"lib/node_modules/npm/bin/npm-cli.js"
 
-    # Resolve intelephense's own npm dependencies using ONLY the vendored node/npm above —
-    # absolute paths, so this can never fall through to a `node`/`npm` on the caller's PATH.
+    # Some transitive npm dependencies (e.g. protobufjs) run their own `node scripts/...`
+    # postinstall steps, which need a bare `node` resolvable on PATH. Prepend the vendored
+    # runtime so that's still ONLY our private copy — never any `node` the caller might have.
+    ENV.prepend_path "PATH", node_dir/"bin"
     system node, npm_cli, "install", "--production", "--no-audit", "--no-fund"
 
     libexec.install buildpath.children
