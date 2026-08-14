@@ -49,6 +49,7 @@ class Intelephense < Formula
   end
 
   test do
+    require "open3"
     require "timeout"
 
     request = <<~JSON
@@ -57,12 +58,23 @@ class Intelephense < Formula
     body = request.strip
     message = "Content-Length: #{body.bytesize}\r\n\r\n#{body}"
 
-    output = IO.popen([bin/"intelephense", "--stdio"], "r+") do |io|
-      io.write(message)
-      io.close_write
-      Timeout.timeout(30) { io.read(200) }
+    output = +""
+    Open3.popen3(bin/"intelephense", "--stdio") do |stdin, stdout, _stderr, wait_thr|
+      stdin.write(message)
+      stdin.flush
+
+      # Don't close stdin: intelephense's LSP transport treats EOF on stdin as a shutdown
+      # signal and exits before finishing the response. Instead, poll stdout until the
+      # `initialize` result comes back (it includes "result", not just the startup
+      # log notifications) or we time out.
+      Timeout.timeout(30) do
+        output << stdout.readpartial(4096) until output.include?("\"result\"")
+      end
+    ensure
+      Process.kill("KILL", wait_thr.pid) rescue nil
     end
 
-    assert_match "jsonrpc", output.to_s
+    assert_match "jsonrpc", output
+    assert_match "\"result\"", output
   end
 end
