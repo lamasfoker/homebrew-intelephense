@@ -41,7 +41,7 @@ if [ "v${current_node}" != "$lts_line" ]; then
     url="https://nodejs.org/dist/${lts_line}/${tarball}"
     sha=$(echo "$shasums" | grep "$tarball" | awk '{print $1}')
 
-    perl -0pi -e "s{node-v[0-9.]+-darwin-${arch}\.tar\.gz\"\n        sha256 \"[0-9a-f]+\"}{node-v${node_version}-darwin-${arch}.tar.gz\"\n        sha256 \"${sha}\"}" "$formula"
+    perl -0pi -e "s{https://nodejs\.org/dist/v[0-9.]+/node-v[0-9.]+-darwin-${arch}\.tar\.gz\"\n        sha256 \"[0-9a-f]+\"}{${url}\"\n        sha256 \"${sha}\"}" "$formula"
   done
 
   echo "node (vendored LTS): v${current_node} -> ${lts_line}"
