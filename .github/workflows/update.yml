@@ -25,8 +25,11 @@ jobs:
       - name: Build and test the bumped formula
         if: steps.bump.outputs.changed == '1'
         run: |
-          brew install --formula --build-from-source ./Formula/intelephense.rb
-          brew test intelephense
+          TAP_DIR="$(brew --repository)/Library/Taps/lamasfoker"
+          mkdir -p "$TAP_DIR"
+          ln -sfn "$GITHUB_WORKSPACE" "$TAP_DIR/homebrew-intelephense"
+          brew install --formula --build-from-source lamasfoker/intelephense/intelephense
+          brew test lamasfoker/intelephense/intelephense
 
       - name: Open PR
         id: pr
