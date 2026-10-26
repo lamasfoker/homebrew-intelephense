@@ -17,12 +17,12 @@ class Intelephense < Formula
   resource "node" do
     on_macos do
       on_arm do
-        url "https://nodejs.org/dist/v24.22.0/node-v24.22.0-darwin-arm64.tar.gz"
-        sha256 "6a9724d9b50a5f22b4816cded441b5a8d9ddae546191a5e5b7efa5a5e2ee26d5"
+        url "https://nodejs.org/dist/v24.22.1/node-v24.22.1-darwin-arm64.tar.gz"
+        sha256 "89c682593d76cd44233fa53b1563264e7de9cbb189cad169135c5b4fadfbc0a7"
       end
       on_intel do
-        url "https://nodejs.org/dist/v24.22.0/node-v24.22.0-darwin-x64.tar.gz"
-        sha256 "495e3f273c645f3c4677d438304cdfc701729ea5dec5728f5c8e76a2dece4b91"
+        url "https://nodejs.org/dist/v24.22.1/node-v24.22.1-darwin-x64.tar.gz"
+        sha256 "d132557e7ee2b85af08b0c8c34338e65c6430f2238d01f727728ef42dc83b035"
       end
     end
   end
