@@ -3,7 +3,7 @@
 #   - pins the intelephense npm tarball to the latest published version
 #   - re-pins the vendored Node.js runtime (darwin-arm64 + darwin-x64) to the current LTS
 #
-# Usage: script/bump.sh
+# Usage: script/bump-intelephense.sh
 # Exits 0 with no changes if everything is already current; prints what changed to stdout.
 set -euo pipefail
 

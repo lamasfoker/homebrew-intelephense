@@ -1,8 +1,8 @@
-name: Update intelephense
+name: Update trail-code
 
 on:
   schedule:
-    - cron: "0 3 * * 1" # weekly, Monday 03:00 UTC
+    - cron: "0 3 * * *" # daily, 03:00 UTC
   workflow_dispatch: {}
 
 permissions:
@@ -15,9 +15,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Bump formula (intelephense version + vendored Node.js LTS)
+      - name: Bump formula (trail-code version + vendored Node.js LTS)
         id: bump
-        run: script/bump.sh
+        run: script/bump-trail-code.sh
 
       - name: Show diff
         run: git diff --stat
@@ -27,21 +27,21 @@ jobs:
         run: |
           TAP_DIR="$(brew --repository)/Library/Taps/lamasfoker"
           mkdir -p "$TAP_DIR"
-          ln -sfn "$GITHUB_WORKSPACE" "$TAP_DIR/homebrew-intelephense"
-          brew install --formula --build-from-source lamasfoker/intelephense/intelephense
-          brew test lamasfoker/intelephense/intelephense
+          ln -sfn "$GITHUB_WORKSPACE" "$TAP_DIR/homebrew-tap"
+          brew install --formula --build-from-source lamasfoker/tap/trail-code
+          brew test lamasfoker/tap/trail-code
 
       - name: Open PR
         id: pr
         if: steps.bump.outputs.changed == '1'
         uses: peter-evans/create-pull-request@v6
         with:
-          commit-message: "intelephense: automated version bump"
-          branch: automated/bump-intelephense
+          commit-message: "trail-code: automated version bump"
+          branch: automated/bump-trail-code
           delete-branch: true
-          title: "intelephense: automated version bump"
+          title: "trail-code: automated version bump"
           body: |
-            Automated bump by `.github/workflows/update.yml`.
+            Automated bump by `.github/workflows/update-trail-code.yml`.
             `brew install --build-from-source` + `brew test` passed on macos-14 before this PR was opened.
 
       - name: Enable auto-merge
