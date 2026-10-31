@@ -1,8 +1,8 @@
 class TrailCode < Formula
   desc "Context layer for coding agents — installed with a private, vendored Node.js runtime"
   homepage "https://github.com/trailhq/Trail-Code"
-  url "https://registry.npmjs.org/@trailhq/trail-code/-/trail-code-0.28.0.tgz"
-  sha256 "410da1bfbbe0dcf1865624fadccf00e84271c9ef7d5ed535231c19891381bcd9"
+  url "https://registry.npmjs.org/@trailhq/trail-code/-/trail-code-0.28.1.tgz"
+  sha256 "7d3082b3cc28e32d9f0942a0bedfd88366993a40aaa6c55d3390de2cdf39cadb"
   license "MIT"
 
   livecheck do
